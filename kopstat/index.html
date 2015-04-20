@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>KOPSTAT MOBILE</title>
+		<link rel="stylesheet" href="themes/Bootstrap.css">
+		<link rel="stylesheet" href="themes/jquery.mobile.structure-1.4.0.min.css" />
+		<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+		<script src="themes/js/jquery-1.8.2.min.js"></script>
+		<script src="themes/js/jquery.mobile-1.4.0.min.js"></script>	
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#login1").click(function(){
+			var url_anggota	 = 'menu1.html';
+			//var url_atasan	 = 'atasan.html';
+			var action = $("#loginform").attr('action');
+			var form_data = {
+				username: $("#username").val(),
+				password: $("#password").val(),
+				//user_type: $("#user_type").val(),
+				is_ajax: 1
+			};
+			
+			$.ajax({
+				type: "POST",
+				dataType : 'json',
+				url: action,
+				data: form_data,
+				success : function(data){	
+					var hasil;
+					Sistem = data.items;
+					$.each(Sistem, function(index, loaddata) {
+							hasil = loaddata.ret;
+					});
+				
+					if(hasil == "1") {
+						//echo "sukses";
+						alert('welcome');
+						window.location = url_anggota;
+						}
+					/*else if(hasil == "2") {
+						alert('welcome BOS');
+						window.location = url_atasan;
+						
+						} */
+					else{
+						$("#message").html('<p class="error">ERROR: password/ID Anggota yang anda masukkan salah.</p>');
+						}
+				}	
+			});
+			return false;
+		});
+	}); 
+</script>
+</head>
+	<body>
+	<br><br>
+			<center><h2>LOGIN</h2>
+			<form action="http://localhost/fix/model/login.php" method="POST" id="loginform" name="loginform">
+			<div data-role="fieldcontain">
+					<input type="text" name="username" id="username" placeholder="username" value=""  />
+			</div>
+			<div data-role="fieldcontain">
+					<input type="password" name="password" id="password" placeholder="password" id="name" value=""  />
+			</div>
+			<div class="ui-block-a"><button id="login1" type="submit" data-theme="c">Login</button></div>
+			</form>
+			</center>
+			
+	</body>
+</html>
